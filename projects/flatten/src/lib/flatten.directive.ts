@@ -1,15 +1,4 @@
-import {
-  Attribute,
-  Directive,
-  DoCheck,
-  ElementRef,
-  Input,
-  OnChanges,
-  Renderer2,
-  SimpleChanges,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { Directive, DoCheck, Input } from '@angular/core';
 
 @Directive({
   selector: '[libSpread]',
@@ -20,9 +9,7 @@ export class SpreadDirective implements DoCheck {
   constructor() {}
   ngDoCheck(): void {
     if (this.host && this.bindingContext) {
-      Object.keys(this.bindingContext).forEach(
-        (item) => (this.host[item] = this.bindingContext[item])
-      );
+      Object.apply(this.host, this.bindingContext);
     }
   }
 }
