@@ -9,7 +9,7 @@ export class SpreadDirective implements DoCheck {
   constructor() {}
   ngDoCheck(): void {
     if (this.host && this.bindingContext) {
-      Object.apply(this.host, this.bindingContext);
+      Object.assign(this.host, this.bindingContext);
     }
   }
 }
