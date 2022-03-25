@@ -6,6 +6,12 @@
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "paths": {
+      "flatten": [
+        "dist/flatten/flatten",
+        "dist/flatten"
+      ]
+    },
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
