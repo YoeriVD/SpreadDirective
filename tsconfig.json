@@ -7,9 +7,9 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "paths": {
-      "flatten": [
-        "dist/flatten/flatten",
-        "dist/flatten"
+      "binding-context": [
+        "dist/binding-context/binding-context",
+        "dist/binding-context"
       ]
     },
     "noImplicitOverride": true,

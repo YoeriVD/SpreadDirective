@@ -11,7 +11,7 @@ import {
 @Directive({
   selector: '[bindingContext]',
 })
-export class SpreadDirective implements OnChanges {
+export class BindingContextDirective implements OnChanges {
   @Input() host: any;
   @Input() bindingContext: any;
   hostChangeDetectorRef: ChangeDetectorRef;

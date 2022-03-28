@@ -3,37 +3,6 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "flatten": {
-      "projectType": "library",
-      "root": "projects/flatten",
-      "sourceRoot": "projects/flatten/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "projects/flatten/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/flatten/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/flatten/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/flatten/src/test.ts",
-            "tsConfig": "projects/flatten/tsconfig.spec.json",
-            "karmaConfig": "projects/flatten/karma.conf.js"
-          }
-        }
-      }
-    },
     "demo": {
       "projectType": "application",
       "schematics": {
@@ -61,9 +30,7 @@
               "projects/demo/src/favicon.ico",
               "projects/demo/src/assets"
             ],
-            "styles": [
-              "projects/demo/src/styles.scss"
-            ],
+            "styles": ["projects/demo/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -129,10 +96,39 @@
               "projects/demo/src/favicon.ico",
               "projects/demo/src/assets"
             ],
-            "styles": [
-              "projects/demo/src/styles.scss"
-            ],
+            "styles": ["projects/demo/src/styles.scss"],
             "scripts": []
+          }
+        }
+      }
+    },
+    "binding-context": {
+      "projectType": "library",
+      "root": "projects/binding-context",
+      "sourceRoot": "projects/binding-context/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/binding-context/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/binding-context/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/binding-context/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/binding-context/src/test.ts",
+            "tsConfig": "projects/binding-context/tsconfig.spec.json",
+            "karmaConfig": "projects/binding-context/karma.conf.js"
           }
         }
       }
