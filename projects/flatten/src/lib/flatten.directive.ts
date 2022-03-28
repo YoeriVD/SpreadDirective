@@ -1,34 +1,67 @@
 import {
   ChangeDetectorRef,
   Directive,
-  DoCheck,
   Host,
   Injector,
   Input,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 
 @Directive({
-  selector: '[libSpread]',
+  selector: '[bindingContext]',
 })
-export class SpreadDirective implements DoCheck {
+export class SpreadDirective implements OnChanges {
   @Input() host: any;
   @Input() bindingContext: any;
-  marker: ChangeDetectorRef;
+  hostChangeDetectorRef: ChangeDetectorRef;
   constructor(@Host() injector: Injector) {
-    this.marker = injector.get(ChangeDetectorRef);
+    this.hostChangeDetectorRef = injector.get(ChangeDetectorRef);
   }
-  _oldValues: any[] = [];
-  ngDoCheck(): void {
-    if (this.host && this.bindingContext) {
-      const values = Object.values(this.bindingContext);
-      const isSameLength = this._oldValues.length === values.length;
-      const sameRefs = this._oldValues.every(
-        (value, index) => value === values[index]
-      );
-      if (isSameLength && sameRefs) return;
-      Object.assign(this.host, this.bindingContext);
-      this.marker.markForCheck();
-      this._oldValues = values;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['bindingContext']) {
+      const newContext = changes['bindingContext'].currentValue;
+      this.decorateProperties(newContext);
+      const oldContext = changes['bindingContext'].previousValue;
+      if (oldContext) {
+        this.removeDecorators(oldContext);
+      }
     }
+  }
+
+  private removeDecorators(oldContext: any) {
+    Object.keys(oldContext).forEach((propertyKey) => {
+      const valueKey = `____${propertyKey}____`;
+      const value = oldContext[valueKey];
+      delete oldContext[propertyKey];
+      delete oldContext[valueKey];
+      oldContext[propertyKey] = value;
+    });
+  }
+
+  private decorateProperties(newContext: any) {
+    Object.keys(newContext).forEach((propertyKey) => {
+      const actualProperty = newContext[propertyKey];
+      // perform initial set
+      this.host[propertyKey] = actualProperty;
+
+      // define custom property to push any future changes to the host
+      const valueKey = `____${propertyKey}____`;
+      newContext[valueKey] = actualProperty;
+      // avoid JS this issues
+      const that = this;
+      Object.defineProperty(newContext, propertyKey, {
+        configurable: true,
+        enumerable: true,
+        get: function () {
+          return newContext[valueKey];
+        },
+        set: function (value) {
+          newContext[valueKey] = value;
+          that.host[propertyKey] = value;
+          that.hostChangeDetectorRef.detectChanges();
+        },
+      });
+    });
   }
 }
